@@ -7,6 +7,7 @@ import AddElementInput from './AddElementInput/AddElementInput'
 import { useState, useEffect } from 'react';
 import SimpleInput from './SimpleInput/SimpleInput'
 import RangePicker from './RangePicker/RangePicker'
+import {useTrimmedState} from "./hooks/useTrimmedState.ts";
 import { Form, message, Modal, Button, Input } from 'antd';
 
 interface User {
@@ -124,7 +125,7 @@ function App() {
   const [isAdvancedSearch, setIsAdvancedSearch] = useState(false);
 
   //Данные формы поиска
-  const [dishName, setDishName] = useState<string>(" ");
+  const [dishName, setDishName] = useTrimmedState('');
 
   const [budgetPreference, setBudgetPreference] = useState<RadioValue>('neutral');
   const [meatPreference, setMeatPreference] = useState<RadioValue>('neutral');
@@ -148,8 +149,8 @@ function App() {
   const [searchResult, setSearchResult] = useState<Recipe[]>([]);
 
   //Данные формы создания
-  const [creationDishName, setCreationDishName] = useState<string>(" ");
-  const [creationUrl, setCreationUrl] = useState<string>(" ");
+  const [creationDishName, setCreationDishName] = useTrimmedState('');
+  const [creationUrl, setCreationUrl] = useTrimmedState('');
 
   const [creationBudgetPreference, setCreationBudgetPreference] = useState<RadioValue>('negative');
   const [creationMeatPreference, setCreationMeatPreference] = useState<RadioValue>('negative');
@@ -679,7 +680,7 @@ function App() {
                     },
 
                     preparation_needed: null,
-                    dish_name: dishName || null,
+                    dish_name: dishName.trim() || null,
 
                     is_expensive: budgetPreference === 'positive' ? true :
                       budgetPreference === 'negative' ? false : null,
